@@ -1,3 +1,5 @@
+const MAX_ROUNDS = 5;
+
 // helper function
 function capitalizeFirstLetter(word) {
   return word.charAt(0).toUpperCase() + word.substring(1);
@@ -7,7 +9,7 @@ function getRoundEndMessage(playerWon, humanChoice, computerChoice) {
   humanChoice = capitalizeFirstLetter(humanChoice);
   computerChoice = capitalizeFirstLetter(computerChoice);
  
-  return winnerMessage = (playerWon) ? 
+  return (playerWon) ? 
         "You Won this round! " + humanChoice + " beats " + computerChoice :
         "You Lost this round! " + computerChoice + " beats " + humanChoice; 
 }
@@ -73,7 +75,7 @@ function playGame() {
   let humanScore = 0;
   let computerScore = 0;
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < MAX_ROUNDS; i++) {
     const playerWon = playRound(getHumanChoice(), getComputerChoice());
     if (playerWon === null) continue;
 
@@ -85,7 +87,7 @@ function playGame() {
 
   }
 
-  let = winnerMessage = "Tie!";
+  let winnerMessage = "Tie!";
 
   if (humanScore > computerScore) {
     winnerMessage = "You won!";
@@ -97,5 +99,5 @@ function playGame() {
 
   console.log(winnerMessage + " \n" +  "human score: " + humanScore + "\n" + "computer score: " + computerScore);
 }
-
-playGame();
+// TODO: start game only if player click anywhere on the viewport.
+//playGame();
