@@ -99,5 +99,7 @@ function playGame() {
 
   console.log(winnerMessage + " \n" +  "human score: " + humanScore + "\n" + "computer score: " + computerScore);
 }
-// TODO: start game only if player click anywhere on the viewport.
-//playGame();
+
+const body = document.querySelector("body");
+
+body.addEventListener("click", () => playGame());
