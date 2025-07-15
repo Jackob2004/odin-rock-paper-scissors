@@ -1,17 +1,28 @@
-const MAX_ROUNDS = 5;
-
 // helper function
 function capitalizeFirstLetter(word) {
   return word.charAt(0).toUpperCase() + word.substring(1);
 }
 // helper function
-function getRoundEndMessage(playerWon, humanChoice, computerChoice) {
+function displayRoundEndMessage(playerWon, humanChoice, computerChoice) {
+  const gameLogContainer = document.querySelector(".game-log");
+
+  const logMessage = document.createElement("p");
+
+  if (playerWon === null) {
+    logMessage.textContent = "Tie!";
+    gameLogContainer.appendChild(logMessage);
+
+    return;
+  }
+
   humanChoice = capitalizeFirstLetter(humanChoice);
   computerChoice = capitalizeFirstLetter(computerChoice);
- 
-  return (playerWon) ? 
+
+  logMessage.textContent = (playerWon) ? 
         "You Won this round! " + humanChoice + " beats " + computerChoice :
         "You Lost this round! " + computerChoice + " beats " + humanChoice; 
+ 
+  gameLogContainer.appendChild(logMessage); 
 }
 
 function getComputerChoice() {
@@ -33,22 +44,9 @@ function getComputerChoice() {
   return computerChoice;
 }
 
-function getHumanChoice() {
-  let humanChoice;
-
-  while (humanChoice !== "rock" &&  humanChoice !== "paper" && humanChoice !== "scissors") {
-    humanChoice = prompt("Choose one of these: rock, paper, scissors", "");
-    if (humanChoice === null) continue; // skipping so toLowerCase won't be called on null values
-
-    humanChoice = humanChoice.toLowerCase();
-  }
- 
-  return humanChoice;
-}
-
 function playRound(humanChoice, computerChoice) {
   if (humanChoice === computerChoice) {
-    console.log("Tie!");
+    displayRoundEndMessage(null, humanChoice, computerChoice); 
     return null;
   }
 
@@ -66,40 +64,70 @@ function playRound(humanChoice, computerChoice) {
     playerWon = true;
   }
   
-  console.log(getRoundEndMessage(playerWon, humanChoice, computerChoice)); 
+  displayRoundEndMessage(playerWon, humanChoice, computerChoice); 
   
   return playerWon; 
 }
 
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
+function getHumanChoice(e) {
+  return e.target.textContent.toLowerCase();
+}
+ 
+const WINNING_SCORE = 5;
+let humanScore = 0;
+let computerScore = 0;
 
-  for (let i = 0; i < MAX_ROUNDS; i++) {
-    const playerWon = playRound(getHumanChoice(), getComputerChoice());
-    if (playerWon === null) continue;
+function updateScoresContainers() {
+  const humanScoreContainer = document.querySelector("#human-score"); 
+  const computerScoreContainer = document.querySelector("#computer-score");
 
-    if (playerWon) {
-      humanScore++;
-    } else {
-      computerScore++;
-    }
-
-  }
-
-  let winnerMessage = "Tie!";
-
-  if (humanScore > computerScore) {
-    winnerMessage = "You won!";
-  } 
-  
-  if (computerScore > humanScore) {
-    winnerMessage = "Computer won!";
-  } 
-
-  console.log(winnerMessage + " \n" +  "human score: " + humanScore + "\n" + "computer score: " + computerScore);
+  humanScoreContainer.textContent = "Human score: " + humanScore;
+  computerScoreContainer.textContent = "Computer score: " + computerScore;
 }
 
-const body = document.querySelector("body");
+function updateScores(playerWon) {
+  if (playerWon) {
+    humanScore++;
+  } else if(!playerWon && playerWon !== null) {
+    computerScore++;
+  }
+  
+  updateScoresContainers();  
+}
 
-body.addEventListener("click", () => playGame());
+function endGame(playerWon) {
+  const gameLogContainer = document.querySelector(".game-log");
+  const logMessage = document.createElement("p");
+
+  const winner = (playerWon) ? "Human" : "Computer";
+  logMessage.innerHTML = winner + " won this game!<br> Final human score: " + humanScore
+                           + "<br>Final computer score: " + computerScore; 
+
+  gameLogContainer.appendChild(logMessage);
+
+  humanScore = computerScore = 0;
+  updateScoresContainers();
+}
+
+function playGame(e) {
+  const playerWon = playRound(getHumanChoice(e), getComputerChoice());
+  updateScores(playerWon);
+
+  if (humanScore >= WINNING_SCORE) {
+    endGame(true); 
+  }
+
+  if (computerScore >= WINNING_SCORE) {
+    endGame(false); 
+  }
+}
+
+function resetGameLog() {
+  document.querySelectorAll(".game-log p").forEach((node) => node.remove());
+}
+
+const buttonsContainer = document.querySelector(".buttons");
+buttonsContainer.addEventListener("click", playGame); 
+
+const resetLogBtn = document.querySelector(".game-log button");
+resetLogBtn.addEventListener("click", resetGameLog);
