@@ -109,6 +109,15 @@ function endGame(playerWon) {
   updateScoresContainers();
 }
 
+function scrollGameLog() {
+  const gameLogContainer = document.querySelector(".game-log");
+  
+  gameLogContainer.scrollTo({
+    top: gameLogContainer.scrollHeight,
+    behavior: "smooth"
+  });
+}
+
 function playGame(e) {
   const playerWon = playRound(getHumanChoice(e), getComputerChoice());
   updateScores(playerWon);
@@ -120,6 +129,8 @@ function playGame(e) {
   if (computerScore >= WINNING_SCORE) {
     endGame(false); 
   }
+  
+  scrollGameLog(); 
 }
 
 function resetGameLog() {

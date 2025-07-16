@@ -13,11 +13,57 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  background-color: #2F5249;
 }
 
-.container {
+.header {
+  color: #E3DE61;
+  background-color: #437057;
+  padding: 30px;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.game-panel {
+
+}
+
+.game-log {
+  width: 600px;
+  height: 300px;
+  overflow: auto;
+  margin-bottom: 10px;
+  background-color: #437057;
+  box-shadow: 2px 4px 16px rgba(227,222,97,1); 
+}
+
+.game-log h3 {
+  color: #E3DE61;
+}
+
+.game-log button {
+  color: #E3DE61;
+  background: none;
+  border-radius: 10px;
+  border: solid 2px #E3DE61;
+  padding: 5px;
+  font-weight: bold;
+} 
+
+.game-log div {
   display: flex;
-  flex-direction: column;
-  margin: auto;
-  align-items: center;
+  justify-content: space-around;
+  position: sticky;
+  top: 0;
+  padding: 10px;
+}
+
+.game-log p {
+  padding: 10px;
+  background-color: #6c7954;
+  border-radius: 10px;
+  margin: 10px;
+  color: white;
 }
