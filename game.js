@@ -81,8 +81,8 @@ function updateScoresContainers() {
   const humanScoreContainer = document.querySelector("#human-score"); 
   const computerScoreContainer = document.querySelector("#computer-score");
 
-  humanScoreContainer.textContent = "Human score: " + humanScore;
-  computerScoreContainer.textContent = "Computer score: " + computerScore;
+  humanScoreContainer.textContent = "Human - " + humanScore;
+  computerScoreContainer.textContent = computerScore + " - Computer";
 }
 
 function updateScores(playerWon) {
