@@ -47,11 +47,12 @@ button {
   gap: 30px;
   color: #E3DE61;
   font-weight: bold;
-  font-size: larger;
+  font-size: 30px;
 }
 
 .game-panel button {
-  margin: 15px;  
+  margin: 15px;
+  padding: 25px;  
 }
 
 .game-log {
